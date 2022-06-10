@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import Ship from "../lib/ship";
 
 describe("Ship(startCoords, length, orientation) works correctly", () => {
@@ -42,8 +44,8 @@ describe("Ship(startCoords, length, orientation) works correctly", () => {
   it("Ship('10A', 2, 'v') doesn't place ship if out of bounds", () => {
     const veryTallShip = Ship("10A", 2, "v");
     const veryWideShip = Ship("1J", 2, "h");
-    expect(veryTallShip.coords).toBe(null);
-    expect(veryWideShip.coords).toBe(null);
+    expect(veryTallShip.coords).toBeNull();
+    expect(veryWideShip.coords).toBeNull();
   });
 });
 
@@ -61,27 +63,11 @@ describe("Ship.isSunk() works correctly", () => {
   it("Ship.isSunk() returns true when ship's sunk", () => {
     const ship = Ship("1A", 1, "v");
     ship.hit(1);
-    expect(ship.isSunk()).toBeTruthy();
+    expect(ship.isSunk()).toBe(true);
   });
 
   it("Ship.isSunk() returns false when ship hasn't sunk", () => {
     const ship = Ship("1A", 1, "v");
-    expect(ship.isSunk()).toBeFalsy();
+    expect(ship.isSunk()).toBe(false);
   });
 });
-
-// describe("gameboard() works correctly", () => {
-//   const emptyGrid = [];
-//   for (let i = 0; i < 10; i++) {
-//     let row = [];
-//     for (let j = 0; j < 10; j++) {
-//       row.push(0);
-//     }
-//     emptyGrid.push(row);
-//   }
-
-//   it("gameboard() initializes an empty grid", () => {
-//     const _gameboard = gameboard();
-//     expect(_gameboard.board).toEqual(emptyGrid);
-//   });
-// });

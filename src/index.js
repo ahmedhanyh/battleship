@@ -19,7 +19,7 @@ const contentDiv = document.createElement("div");
 contentDiv.id = "content";
 document.body.appendChild(contentDiv);
 
-displayGameboard(player.gameboard);
+displayGameboard(player.gameboard, true);
 displayGameboard(computer.gameboard);
 
 let gameOver = false;
@@ -48,14 +48,12 @@ function computerAttack() {
     if (result === "missed") {
       gameText.textContent = "Player's turn";
       turn = 1;
+    } else if (player.gameboard.allShipsSunk()) {
+      gameText.textContent = "You Lost.";
+      gameText.style.color = "red";
+      gameOver = true;
     } else {
-      if (player.gameboard.allShipsSunk()) {
-        gameText.textContent = "You Lost.";
-        gameText.style.color = "red";
-        gameOver = true;
-      } else {
-        computerAttack();
-      }
+      computerAttack();
     }
   }, 500);
 }

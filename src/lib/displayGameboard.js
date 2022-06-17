@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-function displayGameboard(gameboard) {
+function displayGameboard(gameboard, showShips = false) {
   const boardDiv = document.createElement("div");
   const emptyCell = document.createElement("div");
   const colHeaders = document.createElement("div");
@@ -21,7 +21,14 @@ function displayGameboard(gameboard) {
     for (let col = 65; col < 75; col++) {
       let cell = document.createElement("button");
       cell.classList.add("cell");
+      cell.classList.add("computer-cell");
       cell.setAttribute("data-coords", `${row + 1}${String.fromCharCode(col)}`);
+      if (showShips) {
+        if (gameboard.board[row][String.fromCharCode(col)] !== null) {
+          cell.textContent = "X";
+        }
+        cell.classList.remove("computer-cell");
+      }
       boardContents.appendChild(cell);
     }
   }
@@ -49,6 +56,11 @@ function updateGameboardDisplay(playerObj, coords) {
       : boardContents[1].querySelector(`[data-coords='${row}${col}']`);
   const targetState = playerObj.gameboard.board[row - 1][col];
   targetSpot.textContent = targetState === "hit" ? "X" : "--";
+
+  if (targetState === "hit" && playerObj.name === "Player") {
+    targetSpot.style.color = "red";
+  }
+
   return targetState;
 }
 

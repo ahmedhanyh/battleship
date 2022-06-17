@@ -7,6 +7,14 @@ import "./css/style.css";
 const player = Player("Player");
 const computer = Player("Computer");
 
+const mainHeading = document.createElement("h1");
+mainHeading.textContent = "Battleship";
+document.body.appendChild(mainHeading);
+
+const gameText = document.createElement("h2");
+gameText.textContent = "Player's turn";
+document.body.appendChild(gameText);
+
 const contentDiv = document.createElement("div");
 contentDiv.id = "content";
 document.body.appendChild(contentDiv);

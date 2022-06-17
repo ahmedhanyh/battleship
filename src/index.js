@@ -1,5 +1,7 @@
 import Player from "./lib/player";
-import displayGameboard from "./lib/displayGameboard";
+import displayGameboard, {
+  updateGameboardDisplay,
+} from "./lib/displayGameboard";
 import "./css/style.css";
 
 const player = Player("Player");
@@ -12,15 +14,43 @@ document.body.appendChild(contentDiv);
 displayGameboard(player.gameboard);
 displayGameboard(computer.gameboard);
 
+let turn = 1;
+
 const boardContents = document.querySelectorAll(".board-contents");
 
+const allCells = boardContents[0].querySelectorAll(".cell");
+const allCoords = [];
+allCells.forEach((cell) => {
+  const { coords } = cell.dataset;
+  allCoords.push(coords);
+});
+
+function getRandomInt(n) {
+  return Math.floor(Math.random() * n);
+}
+
+function computerAttack() {
+  const coordsIndex = getRandomInt(allCoords.length);
+  const targetCoords = allCoords[coordsIndex];
+  allCoords.splice(coordsIndex, 1);
+  computer.attack(player, targetCoords);
+  const result = updateGameboardDisplay(player, targetCoords);
+  if (result === "missed") {
+    turn = 1;
+  } else {
+    computerAttack();
+  }
+}
+
 boardContents[1].addEventListener("click", (e) => {
+  if (turn !== 1) {
+    return;
+  }
   const targetCoords = e.target.dataset.coords;
   player.attack(computer, targetCoords);
-  const targetSpot = boardContents[1].querySelector(
-    `[data-coords='${targetCoords}']`
-  );
-  const targetState =
-    computer.gameboard.board[targetCoords.slice(0, -1) - 1][targetCoords[1]];
-  targetSpot.textContent = targetState === "hit" ? "X" : "--";
+  const result = updateGameboardDisplay(computer, targetCoords);
+  if (result === "missed") {
+    turn = 2;
+    computerAttack();
+  }
 });

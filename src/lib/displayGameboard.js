@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-export default function displayGameboard(gameboard) {
+function displayGameboard(gameboard) {
   const boardDiv = document.createElement("div");
   const emptyCell = document.createElement("div");
   const colHeaders = document.createElement("div");
@@ -38,3 +38,19 @@ export default function displayGameboard(gameboard) {
   boardDiv.appendChild(boardContents);
   document.querySelector("#content").appendChild(boardDiv);
 }
+
+function updateGameboardDisplay(playerObj, coords) {
+  const boardContents = document.querySelectorAll(".board-contents");
+  const row = coords.slice(0, -1);
+  const col = coords.slice(-1);
+  const targetSpot =
+    playerObj.name === "Player"
+      ? boardContents[0].querySelector(`[data-coords='${row}${col}']`)
+      : boardContents[1].querySelector(`[data-coords='${row}${col}']`);
+  const targetState = playerObj.gameboard.board[row - 1][col];
+  targetSpot.textContent = targetState === "hit" ? "X" : "--";
+  return targetState;
+}
+
+export { updateGameboardDisplay };
+export default displayGameboard;

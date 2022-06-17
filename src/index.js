@@ -12,7 +12,17 @@ mainHeading.textContent = "Battleship";
 document.body.appendChild(mainHeading);
 
 const gameText = document.createElement("h2");
-gameText.textContent = "Player's turn";
+const playerShipsCount = document.createElement("span");
+playerShipsCount.classList.add("player-count");
+const playerTurn = document.createElement("span");
+const computerShipsCount = document.createElement("span");
+computerShipsCount.classList.add("computer-count");
+playerShipsCount.textContent = "10";
+playerTurn.textContent = "Player's turn";
+computerShipsCount.textContent = "10";
+gameText.appendChild(playerShipsCount);
+gameText.appendChild(playerTurn);
+gameText.appendChild(computerShipsCount);
 document.body.appendChild(gameText);
 
 const contentDiv = document.createElement("div");

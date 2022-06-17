@@ -41,7 +41,7 @@ function Gameboard() {
 
   // eslint-disable-next-line
   const receiveAttack = (coords) => {
-    const spot = board[coords[0] - 1][coords[1]];
+    const spot = board[coords.slice(0, -1) - 1][coords[coords.length - 1]];
     if (spot !== null) {
       if (spot === "missed" || spot === "hit") {
         return "Already been targeted before";

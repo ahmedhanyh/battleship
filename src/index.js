@@ -30,20 +30,22 @@ function getRandomInt(n) {
 }
 
 function computerAttack() {
-  const coordsIndex = getRandomInt(allCoords.length);
-  const targetCoords = allCoords[coordsIndex];
-  allCoords.splice(coordsIndex, 1);
-  computer.attack(player, targetCoords);
-  const result = updateGameboardDisplay(player, targetCoords);
-  if (result === "missed") {
-    turn = 1;
-  } else {
-    computerAttack();
-  }
+  setTimeout(() => {
+    const coordsIndex = getRandomInt(allCoords.length);
+    const targetCoords = allCoords[coordsIndex];
+    allCoords.splice(coordsIndex, 1);
+    computer.attack(player, targetCoords);
+    const result = updateGameboardDisplay(player, targetCoords);
+    if (result === "missed") {
+      turn = 1;
+    } else {
+      computerAttack();
+    }
+  }, 500);
 }
 
 boardContents[1].addEventListener("click", (e) => {
-  if (turn !== 1) {
+  if (turn !== 1 || e.target.textContent !== "") {
     return;
   }
   const targetCoords = e.target.dataset.coords;

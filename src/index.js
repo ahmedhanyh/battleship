@@ -22,6 +22,7 @@ document.body.appendChild(contentDiv);
 displayGameboard(player.gameboard);
 displayGameboard(computer.gameboard);
 
+let gameOver = false;
 let turn = 1;
 
 const boardContents = document.querySelectorAll(".board-contents");
@@ -45,15 +46,22 @@ function computerAttack() {
     computer.attack(player, targetCoords);
     const result = updateGameboardDisplay(player, targetCoords);
     if (result === "missed") {
+      gameText.textContent = "Player's turn";
       turn = 1;
     } else {
-      computerAttack();
+      if (player.gameboard.allShipsSunk()) {
+        gameText.textContent = "You Lost.";
+        gameText.style.color = "red";
+        gameOver = true;
+      } else {
+        computerAttack();
+      }
     }
   }, 500);
 }
 
 boardContents[1].addEventListener("click", (e) => {
-  if (turn !== 1 || e.target.textContent !== "") {
+  if (turn !== 1 || e.target.textContent !== "" || gameOver) {
     return;
   }
   const targetCoords = e.target.dataset.coords;
@@ -61,6 +69,12 @@ boardContents[1].addEventListener("click", (e) => {
   const result = updateGameboardDisplay(computer, targetCoords);
   if (result === "missed") {
     turn = 2;
+    gameText.textContent = "Computer's turn";
     computerAttack();
+  }
+  if (computer.gameboard.allShipsSunk()) {
+    gameText.textContent = "You Won!";
+    gameText.style.color = "green";
+    gameOver = true;
   }
 });

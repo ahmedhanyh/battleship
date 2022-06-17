@@ -19,7 +19,7 @@ export default function displayGameboard(gameboard) {
     rowHeaders.appendChild(rowHeader);
 
     for (let col = 65; col < 75; col++) {
-      let cell = document.createElement("div");
+      let cell = document.createElement("button");
       cell.classList.add("cell");
       cell.setAttribute("data-coords", `${row + 1}${String.fromCharCode(col)}`);
       boardContents.appendChild(cell);

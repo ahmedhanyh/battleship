@@ -56,14 +56,18 @@ function computerAttack() {
     computer.attack(player, targetCoords);
     const result = updateGameboardDisplay(player, targetCoords);
     if (result === "missed") {
-      gameText.textContent = "Player's turn";
+      playerTurn.textContent = "Player's turn";
       turn = 1;
-    } else if (player.gameboard.allShipsSunk()) {
-      gameText.textContent = "You Lost.";
-      gameText.style.color = "red";
-      gameOver = true;
     } else {
-      computerAttack();
+      playerShipsCount.textContent -= 1;
+
+      if (player.gameboard.allShipsSunk()) {
+        playerTurn.textContent = "You Lost.";
+        playerTurn.style.color = "red";
+        gameOver = true;
+      } else {
+        computerAttack();
+      }
     }
   }, 500);
 }
@@ -77,12 +81,15 @@ boardContents[1].addEventListener("click", (e) => {
   const result = updateGameboardDisplay(computer, targetCoords);
   if (result === "missed") {
     turn = 2;
-    gameText.textContent = "Computer's turn";
+    playerTurn.textContent = "Computer's turn";
     computerAttack();
-  }
-  if (computer.gameboard.allShipsSunk()) {
-    gameText.textContent = "You Won!";
-    gameText.style.color = "green";
-    gameOver = true;
+  } else {
+    computerShipsCount.textContent -= 1;
+
+    if (computer.gameboard.allShipsSunk()) {
+      playerTurn.textContent = "You Won!";
+      playerTurn.style.color = "green";
+      gameOver = true;
+    }
   }
 });
